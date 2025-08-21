@@ -4,6 +4,7 @@ import StatusPanel from './components/StatusPanel';
 import CircularProgress from './components/CircularProgress';
 import SystemMetric from './components/SystemMetric';
 import HolographicElement from './components/HolographicElement';
+import WebhookTester from './components/WebhookTester';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -129,6 +130,7 @@ function App() {
 
         {/* Right Panel */}
         <div className="lg:col-span-3 space-y-4 flex flex-col justify-center">
+          <WebhookTester />
           <StatusPanel 
             title="Conectividade"
             icon={<Wifi className="w-5 h-5" />}
