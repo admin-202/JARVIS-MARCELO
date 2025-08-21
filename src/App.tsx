@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Activity, Cpu, Database, Globe, Monitor, Shield, Signal, Wifi } from 'lucide-react';
+import { Activity, Cpu, Database, Globe, Monitor, Shield, Signal, Wifi, Mic, MicOff } from 'lucide-react';
 import StatusPanel from './components/StatusPanel';
 import CircularProgress from './components/CircularProgress';
 import SystemMetric from './components/SystemMetric';
 import HolographicElement from './components/HolographicElement';
-import WebhookTester from './components/WebhookTester';
 import { useWebhook } from './hooks/useWebhook';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [cpuUsage, setCpuUsage] = useState(0);
   const [memoryUsage, setMemoryUsage] = useState(0);
+  const [isListening, setIsListening] = useState(false);
+  const [lastInteraction, setLastInteraction] = useState<string>('');
   
-  const { sendSystemStatus } = useWebhook();
+  const { 
+    sendSystemStatus, 
+    sendVoiceInteractionStart, 
+    sendVoiceInteractionEnd,
+    sendAgentResponse,
+    isLoading 
+  } = useWebhook();
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
@@ -44,6 +51,57 @@ function App() {
     };
   }, [sendSystemStatus]);
 
+  const handleJarvisClick = async () => {
+    if (isListening) {
+      // Stop listening
+      setIsListening(false);
+      setLastInteraction('Interação finalizada');
+      
+      try {
+        await sendVoiceInteractionEnd({
+          duration: '5.2s',
+          status: 'completed',
+          timestamp: new Date().toISOString()
+        });
+      } catch (error) {
+        console.error('Erro ao enviar fim da interação:', error);
+      }
+    } else {
+      // Start listening
+      setIsListening(true);
+      setLastInteraction('Ouvindo...');
+      
+      try {
+        await sendVoiceInteractionStart({
+          user_id: 'user_001',
+          session_id: `session_${Date.now()}`,
+          timestamp: new Date().toISOString()
+        });
+        
+        // Simulate agent response after 3 seconds
+        setTimeout(async () => {
+          if (isListening) {
+            try {
+              await sendAgentResponse({
+                message: 'Como posso ajudá-lo hoje?',
+                confidence: 0.95,
+                response_time: '1.2s',
+                timestamp: new Date().toISOString()
+              });
+              setLastInteraction('Resposta enviada');
+            } catch (error) {
+              console.error('Erro ao enviar resposta do agente:', error);
+            }
+          }
+        }, 3000);
+        
+      } catch (error) {
+        console.error('Erro ao iniciar interação:', error);
+        setIsListening(false);
+        setLastInteraction('Erro na conexão');
+      }
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-900 relative overflow-hidden">
       {/* Background Effects */}
@@ -126,10 +184,23 @@ function App() {
             </div>
             
             {/* Central Widget Container */}
-            <div className="relative z-10 w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-slate-800/30 to-slate-900/30 backdrop-blur-sm border border-cyan-400/20 flex items-center justify-center shadow-2xl">
-              <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-cyan-500/5 to-lime-500/10 border border-cyan-400/30 flex items-center justify-center relative">
+            <button 
+              onClick={handleJarvisClick}
+              disabled={isLoading}
+              className="relative z-10 w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-slate-800/30 to-slate-900/30 backdrop-blur-sm border border-cyan-400/20 flex items-center justify-center shadow-2xl hover:border-lime-400/40 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <div className={`w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-cyan-500/5 to-lime-500/10 border border-cyan-400/30 flex items-center justify-center relative ${isListening ? 'animate-pulse' : ''}`}>
                 {/* Breathing effect */}
-                <div className="absolute inset-0 rounded-full bg-lime-400/15 animate-ping pointer-events-none" />
+                <div className={`absolute inset-0 rounded-full ${isListening ? 'bg-lime-400/30 animate-ping' : 'bg-lime-400/15 animate-ping'} pointer-events-none`} />
+                
+                {/* Microphone Icon */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-8">
+                  {isListening ? (
+                    <Mic className="w-12 h-12 text-lime-400 animate-pulse" />
+                  ) : (
+                    <MicOff className="w-12 h-12 text-cyan-400" />
+                  )}
+                </div>
                 
                 {/* Central Label */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center pointer-events-none">
@@ -139,15 +210,19 @@ function App() {
                   <div className="text-cyan-300/70 text-xs mt-1">
                     Couth.IA Technology
                   </div>
+                  {lastInteraction && (
+                    <div className="text-lime-400/80 text-xs mt-2 font-mono">
+                      {lastInteraction}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
 
         {/* Right Panel */}
         <div className="lg:col-span-3 space-y-4 flex flex-col justify-center">
-          <WebhookTester />
           <StatusPanel 
             title="Conectividade"
             icon={<Wifi className="w-5 h-5" />}
@@ -164,6 +239,15 @@ function App() {
               { label: 'Consultas', value: '1,247', color: 'cyan' },
               { label: 'Sincronização', value: 'OK', color: 'green' },
               { label: 'Backup', value: '2h atrás', color: 'green' }
+            ]}
+          />
+          <StatusPanel 
+            title="Webhook Status"
+            icon={<Signal className="w-5 h-5" />}
+            metrics={[
+              { label: 'Endpoint', value: 'MediaStar', color: 'green' },
+              { label: 'Status', value: isLoading ? 'ENVIANDO' : 'PRONTO', color: isLoading ? 'cyan' : 'green' },
+              { label: 'Última interação', value: lastInteraction || 'Nenhuma', color: 'cyan' }
             ]}
           />
         </div>
