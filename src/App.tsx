@@ -30,7 +30,7 @@ function App() {
     <div className="min-h-screen bg-gray-900 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1)_0%,transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.15)_0%,transparent_50%)]" />
       
       {/* Grid Pattern */}
       <div className="absolute inset-0 opacity-20">
@@ -79,7 +79,7 @@ function App() {
             metrics={[
               { label: 'CPU', value: `${cpuUsage.toFixed(1)}%`, color: 'cyan' },
               { label: 'RAM', value: `${memoryUsage.toFixed(1)}%`, color: 'green' },
-              { label: 'Rede', value: '1.2GB/s', color: 'blue' }
+              { label: 'Rede', value: '1.2GB/s', color: 'green' }
             ]}
           />
           <StatusPanel 
@@ -88,7 +88,7 @@ function App() {
             metrics={[
               { label: 'Firewall', value: 'ATIVO', color: 'green' },
               { label: 'Intrusões', value: '0', color: 'cyan' },
-              { label: 'Última varredura', value: '15min', color: 'blue' }
+              { label: 'Última varredura', value: '15min', color: 'green' }
             ]}
           />
         </div>
@@ -109,9 +109,9 @@ function App() {
             
             {/* Central Widget Container */}
             <div className="relative z-10 w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-slate-800/30 to-slate-900/30 backdrop-blur-sm border border-cyan-400/20 flex items-center justify-center shadow-2xl">
-              <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-cyan-500/5 to-blue-500/5 border border-cyan-400/30 flex items-center justify-center relative">
+              <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-cyan-500/5 to-lime-500/10 border border-cyan-400/30 flex items-center justify-center relative">
                 {/* Breathing effect */}
-                <div className="absolute inset-0 rounded-full bg-cyan-400/10 animate-ping pointer-events-none" />
+                <div className="absolute inset-0 rounded-full bg-lime-400/15 animate-ping pointer-events-none" />
                 
                 {/* Central Label */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center pointer-events-none">
@@ -135,7 +135,7 @@ function App() {
             metrics={[
               { label: 'Internet', value: 'CONECTADO', color: 'green' },
               { label: 'Servidores', value: '99.9%', color: 'cyan' },
-              { label: 'Latência', value: '12ms', color: 'blue' }
+              { label: 'Latência', value: '12ms', color: 'green' }
             ]}
           />
           <StatusPanel 
@@ -144,7 +144,7 @@ function App() {
             metrics={[
               { label: 'Consultas', value: '1,247', color: 'cyan' },
               { label: 'Sincronização', value: 'OK', color: 'green' },
-              { label: 'Backup', value: '2h atrás', color: 'blue' }
+              { label: 'Backup', value: '2h atrás', color: 'green' }
             ]}
           />
         </div>
@@ -169,7 +169,7 @@ function App() {
             icon={<Globe className="w-4 h-4" />} 
             label="Conexões"
             value="247"
-            color="blue"
+            color="green"
           />
         </div>
       </div>

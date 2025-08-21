@@ -20,7 +20,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
   const colorClasses = {
     cyan: 'stroke-cyan-400',
     green: 'stroke-green-400',
-    blue: 'stroke-blue-400'
+    green: 'stroke-lime-400'
   };
 
   const radius = 20;

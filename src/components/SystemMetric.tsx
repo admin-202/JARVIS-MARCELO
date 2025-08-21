@@ -14,8 +14,8 @@ const SystemMetric: React.FC<SystemMetricProps> = ({ icon, label, value, color }
         return 'text-cyan-400 border-cyan-400/30';
       case 'green':
         return 'text-green-400 border-green-400/30';
-      case 'blue':
-        return 'text-blue-400 border-blue-400/30';
+      case 'green':
+        return 'text-lime-400 border-lime-400/30';
       default:
         return 'text-cyan-400 border-cyan-400/30';
     }

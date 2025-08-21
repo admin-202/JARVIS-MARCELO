@@ -19,8 +19,8 @@ const StatusPanel: React.FC<StatusPanelProps> = ({ title, icon, metrics }) => {
         return 'text-cyan-400';
       case 'green':
         return 'text-green-400';
-      case 'blue':
-        return 'text-blue-400';
+      case 'green':
+        return 'text-lime-400';
       default:
         return 'text-cyan-400';
     }
