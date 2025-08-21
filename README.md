@@ -1,4 +1,4 @@
-# James — Painel do Agente de Voz
+# Jarvis — Painel do Agente de Voz
 
 Interface futurista em React + Vite que exibe um painel de status e integra o widget de conversa por voz da ElevenLabs (Convai). Ideal para demonstrar e operar um agente de voz em tempo real, com métricas visuais e elementos holográficos.
 
@@ -24,7 +24,7 @@ Interface futurista em React + Vite que exibe um painel de status e integra o wi
 1. Clone o repositório
 ```bash
 git clone <url-do-repo>
-cd james_painel_de_voz
+cd jarvis_painel_de_voz
 ```
 2. Instale as dependências
 ```bash

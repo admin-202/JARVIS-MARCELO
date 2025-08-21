@@ -47,7 +47,7 @@ function App() {
       <div className="relative z-10 flex justify-between items-center p-6 border-b border-cyan-500/20">
         <div className="flex items-center space-x-6">
           <div className="text-cyan-400 font-orbitron font-bold text-xl">
-            James FazTudo
+            Jarvis - Couth.IA Technology
           </div>
           <div className="text-cyan-300 text-sm">
             {currentTime.toLocaleDateString('pt-BR', { 
@@ -116,10 +116,10 @@ function App() {
                 {/* Central Label */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center pointer-events-none">
                   <div className="text-cyan-400 font-orbitron font-bold text-lg">
-                    James
+                    Jarvis
                   </div>
                   <div className="text-cyan-300/70 text-xs mt-1">
-                    AI Voice Assistant
+                    Couth.IA Technology
                   </div>
                 </div>
               </div>
