@@ -57,10 +57,18 @@ const WebhookTester: React.FC = () => {
     <div className="bg-gradient-to-br from-slate-800/30 to-slate-900/30 backdrop-blur-sm border border-lime-500/20 rounded-lg p-4">
       <div className="flex items-center space-x-2 mb-4">
         <Send className="w-5 h-5 text-lime-400" />
-        <h3 className="text-lime-300 font-orbitron font-semibold text-sm">Webhook Tester</h3>
+        <h3 className="text-lime-300 font-orbitron font-semibold text-sm">Webhook MediaStar</h3>
       </div>
       
       <div className="space-y-4">
+        {/* Webhook URL Display */}
+        <div className="bg-slate-800/30 border border-lime-500/20 rounded p-2">
+          <p className="text-gray-400 text-xs mb-1">Endpoint:</p>
+          <p className="text-lime-300 text-xs font-mono break-all">
+            https://wbh.mediastar.com.br/webhook/jarvis-agente-de-voz
+          </p>
+        </div>
+
         {/* Event Type Selector */}
         <div>
           <label className="block text-gray-300 text-xs mb-2">Event Type</label>

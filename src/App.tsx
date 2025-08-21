@@ -5,11 +5,14 @@ import CircularProgress from './components/CircularProgress';
 import SystemMetric from './components/SystemMetric';
 import HolographicElement from './components/HolographicElement';
 import WebhookTester from './components/WebhookTester';
+import { useWebhook } from './hooks/useWebhook';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [cpuUsage, setCpuUsage] = useState(0);
   const [memoryUsage, setMemoryUsage] = useState(0);
+  
+  const { sendSystemStatus } = useWebhook();
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
@@ -17,15 +20,29 @@ function App() {
     }, 1000);
 
     const metricsInterval = setInterval(() => {
-      setCpuUsage(Math.random() * 100);
-      setMemoryUsage(Math.random() * 100);
+      const newCpuUsage = Math.random() * 100;
+      const newMemoryUsage = Math.random() * 100;
+      
+      setCpuUsage(newCpuUsage);
+      setMemoryUsage(newMemoryUsage);
+      
+      // Send system status to webhook every 30 seconds
+      if (Math.random() < 0.1) { // 10% chance each interval (every ~30 seconds on average)
+        sendSystemStatus({
+          cpu_usage: newCpuUsage.toFixed(1),
+          memory_usage: newMemoryUsage.toFixed(1),
+          network_speed: '1.2GB/s',
+          status: 'online',
+          timestamp: new Date().toISOString()
+        }).catch(console.error);
+      }
     }, 2000);
 
     return () => {
       clearInterval(timeInterval);
       clearInterval(metricsInterval);
     };
-  }, []);
+  }, [sendSystemStatus]);
 
   return (
     <div className="min-h-screen bg-gray-900 relative overflow-hidden">

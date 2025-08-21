@@ -23,14 +23,14 @@ export const useWebhook = () => {
     setError(null);
 
     try {
-      // Replace with your actual Supabase project URL
-      const webhookUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/jarvis-webhook`;
+      // External webhook URL
+      const webhookUrl = 'https://wbh.mediastar.com.br/webhook/jarvis-agente-de-voz';
       
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'User-Agent': 'Jarvis-Couth.IA-Technology/1.0',
         },
         body: JSON.stringify(webhookData),
       });
@@ -39,7 +39,19 @@ export const useWebhook = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result: WebhookResponse = await response.json();
+      let result: WebhookResponse;
+      try {
+        result = await response.json();
+      } catch {
+        // If response is not JSON, create a success response
+        result = {
+          success: true,
+          message: 'Webhook sent successfully',
+          event: webhookData.event,
+          timestamp: new Date().toISOString()
+        };
+      }
+      
       setLastResponse(result);
       
       console.log('Webhook sent successfully:', result);
