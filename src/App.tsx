@@ -111,6 +111,10 @@ function App() {
             <div className="relative z-10 w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-slate-800/30 to-slate-900/30 backdrop-blur-sm border border-cyan-400/20 flex items-center justify-center shadow-2xl">
               <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-cyan-500/5 to-lime-500/10 border border-cyan-400/30 flex items-center justify-center relative">
                 {/* Breathing effect */}
+                <div className="absolute inset-0 rounded-full bg-cyan-400/10 animate-ping" />
+                <div className="absolute inset-4 rounded-full bg-lime-400/15 animate-pulse" />
+                
+                {/* Breathing effect */}
                 <div className="absolute inset-0 rounded-full bg-lime-400/15 animate-ping pointer-events-none" />
                 
                 {/* Central Label */}
@@ -120,6 +124,9 @@ function App() {
                   </div>
                   <div className="text-cyan-300/70 text-sm">
                     Couth.IA Technology
+                  </div>
+                  <div className="mt-4">
+                    <div className="w-3 h-3 bg-lime-400 rounded-full mx-auto animate-pulse shadow-lg shadow-lime-400/50" />
                   </div>
                 </div>
               </div>
